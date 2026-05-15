@@ -81,9 +81,28 @@ const PROJECTS = [
   { title: 'Damanganga Bridge Project', category: 'Bridge', desc: '120m span prestressed concrete bridge connecting industrial zones.', img: 'https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=800&q=80' },
 ];
 
+const HERO_IMAGES = [
+  'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80',
+  'https://images.unsplash.com/photo-1541888081622-6b9f27ea6e7e?w=1600&q=80',
+  'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=1600&q=80',
+  'https://images.unsplash.com/photo-1545459724-a78b5e523fbb?w=1600&q=80',
+];
+
 export default function Home() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const handleChange = e => setFormData(p => ({ ...p, [e.target.name]: e.target.value }));
+
+  // Hero Carousel State
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    if (isHovered) return;
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+    }, 2500); // Increased time to allow for the slower transition
+    return () => clearInterval(timer);
+  }, [isHovered]);
 
   return (
     <main className="bg-white text-gray-900 overflow-x-hidden selection:bg-orange-500 selection:text-white pt-[76px]">
@@ -92,17 +111,55 @@ export default function Home() {
           1. HERO SECTION (Centered Full Width)
       ════════════════════════════════════════════════ */}
       <section className="relative min-h-[calc(100vh-76px)] flex items-center justify-center py-20 overflow-hidden">
-        {/* Background Image */}
-        <div 
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
+        {/* Background Image Carousel */}
+        <div
+          className="absolute inset-0 z-0 overflow-hidden"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onTouchStart={() => setIsHovered(true)}
+          onTouchEnd={() => setIsHovered(false)}
+        >
+          <motion.div
+            className="flex h-full w-full cursor-grab active:cursor-grabbing"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(e, { offset }) => {
+              if (offset.x < -50) {
+                setCurrentImageIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+              } else if (offset.x > 50) {
+                setCurrentImageIndex((prev) => (prev - 1 + HERO_IMAGES.length) % HERO_IMAGES.length);
+              }
+            }}
+            animate={{ x: `-${currentImageIndex * 100}%` }}
+            transition={{ type: "tween", ease: [0.25, 0.1, 0.25, 1], duration: 1.5 }} // Smooth and slow transition
+          >
+            {HERO_IMAGES.map((img, idx) => (
+              <div
+                key={idx}
+                className="w-full h-full flex-shrink-0 bg-cover bg-center pointer-events-none"
+                style={{ backgroundImage: `url('${img}')` }}
+              />
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Carousel Indicators */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+          {HERO_IMAGES.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentImageIndex(idx)}
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${currentImageIndex === idx ? 'bg-orange-500 w-8' : 'bg-white/50 hover:bg-white'
+                }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+
+
         {/* Dark Overlay */}
-        <div className="absolute inset-0 z-0 bg-black/60" />
+        <div className="absolute inset-0 z-0 bg-black/60 pointer-events-none" />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
           <motion.div
@@ -117,7 +174,7 @@ export default function Home() {
               </span>
             </motion.div>
 
-            <motion.h1 
+            <motion.h1
               variants={fadeUp}
               className="font-['Outfit'] text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white mb-6"
             >
@@ -196,7 +253,7 @@ export default function Home() {
             </motion.div>
 
             {/* Right: Image */}
-            <motion.div 
+            <motion.div
               variants={fadeUp}
               className="relative w-full h-[400px] md:h-[500px] rounded-xl overflow-hidden shadow-lg"
             >
@@ -223,7 +280,7 @@ export default function Home() {
       ════════════════════════════════════════════════ */}
       <section className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-6">
-          
+
           <motion.div
             variants={stagger}
             initial="hidden"
@@ -291,7 +348,7 @@ export default function Home() {
               </h2>
               <div className="w-12 h-1 bg-orange-500"></div>
             </motion.div>
-            
+
             <motion.div variants={fadeUp}>
               <Link to="/projects" className="text-xs font-bold tracking-[0.15em] text-orange-500 uppercase hover:text-orange-600 transition-colors duration-200 flex items-center gap-2">
                 View All Works <ArrowRight size={14} />
@@ -309,7 +366,7 @@ export default function Home() {
                 variants={fadeUp}
                 className="group relative h-[400px] overflow-hidden bg-gray-100 cursor-pointer shadow-sm hover:shadow-md transition-shadow"
               >
-                <div 
+                <div
                   className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
                   style={{
                     backgroundImage: `url('${img}')`,
@@ -319,7 +376,7 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90" />
-                
+
                 <div className="absolute bottom-0 left-0 p-8 w-full transform translate-y-6 group-hover:translate-y-0 transition-transform duration-300">
                   <span className="block text-orange-500 text-[10px] font-bold tracking-[0.2em] uppercase mb-3">
                     {category}
