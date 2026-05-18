@@ -52,9 +52,9 @@ export default function Contact() {
                 <div>
                   <h3 className="text-white font-bold text-base mb-2">Registered Office:</h3>
                   <p className="text-gray-300 text-sm leading-relaxed">
-                    Plot No. 45, Industrial Area<br />
-                    Sector-4, Bokaro Steel City<br />
-                    Bokaro, Jharkhand 827004<br />
+                    New Colony, Solagidih, Bhawanipur,<br />
+                    (Behind Hotel Veena Regency), Jodhadih More,<br />
+                    Chas, Bokaro Steel City, Jharkhand – 827013<br />
                     India
                   </p>
                 </div>
@@ -151,7 +151,7 @@ export default function Contact() {
               REGISTERED OFFICE
             </h2>
             <p className="text-gray-600 text-sm md:text-base max-w-2xl mx-auto">
-              Plot No. 45, Industrial Area, Sector-4, Bokaro Steel City, Bokaro, Jharkhand 827004, India<br/>
+              New Colony, Solagidih, Bhawanipur, (Behind Hotel Veena Regency), Jodhadih More, Chas, Bokaro Steel City, Jharkhand – 827013, India<br/>
               Phone: +91 6542 256789
             </p>
           </motion.div>
@@ -163,7 +163,7 @@ export default function Contact() {
           >
             <iframe
               title="GSR Infra Headquarters"
-              src="https://maps.google.com/maps?q=Plot%20No.%2045,%20Industrial%20Area,%20Sector-4,%20Bokaro%20Steel%20City,%20Jharkhand%20827004&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              src="https://maps.google.com/maps?q=New%20Colony,%20Solagidih,%20Bhawanipur,%20Chas,%20Bokaro%20Steel%20City,%20Jharkhand%20827013&t=&z=13&ie=UTF8&iwloc=&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}
